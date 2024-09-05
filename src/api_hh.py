@@ -41,7 +41,7 @@ def get_vacancies(data: list) -> list[dict]:
             vacancy = response.json()["items"]
             vacancies.extend(vacancy)
         else:
-            print(f"Ошибка при запросе компании {company["company_name"]}: {response.status_code}")
+            print(f"Ошибка при запросе компании {company['company_name']}: {response.status_code}")
     return vacancies
 
 

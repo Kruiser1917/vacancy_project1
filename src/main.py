@@ -4,15 +4,24 @@ from src.config import config
 from src.db_creating import create_data_base, save_data_to_db
 from src.db_manager import DBManager
 
+# Прочитать параметры конфигурации из файла .env или другого источника
 params = config()
+
+# Получить данные компаний и вакансий
 data_company = get_companies()
 data = get_vacancies(data_company)
 vacancies = get_vacancy_list(data)
 
+# Запросить у пользователя имя базы данных
 user_choise = input("Введите имя базы данных в которую вы хотите сохранить данные полученные с HH.ru: ")
 
+# Создать базу данных и подключиться к ней
 create_data_base(user_choise, params)
-conn = psycopg2.connect(dbname=user_choise, **params)
+
+# Используем строку подключения DSN
+dsn = f"dbname={user_choise} user={params['user']} password={params['password']} host={params['host']} port={params['port']}"
+conn = psycopg2.connect(dsn)
+
 save_data_to_db(vacancies, user_choise, params)
 
 
